@@ -1,0 +1,35 @@
+@page {
+  size: A4;
+  margin: 9mm 10mm 12mm;
+  @bottom-left { content: "UKRLAW · AI Infrastructure · Богдан Гаврилюк"; font: 500 6.6pt "JetBrains Mono", monospace; color: #8A86AD; letter-spacing: .04em; }
+  @bottom-right { content: counter(page) " / " counter(pages); font: 500 6.6pt "JetBrains Mono", monospace; color: #8A86AD; }
+}
+:root { --ink: #1B1830; --muted: #5E5A7F; --line: #E4DEF5; --violet: #6D4BD8; --gold: #B8892B; }
+* { box-sizing: border-box; }
+html { font: 8pt/1.35 "Inter", "Helvetica Neue", Arial, sans-serif; color: var(--ink); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body { margin: 0; }
+h1, h2, h3, h4 { font-family: "Inter Tight", "Inter", sans-serif; color: #14112A; break-after: avoid; }
+h2 { font-size: 12.5pt; font-weight: 700; letter-spacing: -.01em; margin: 8px 0 4px; padding-bottom: 2px; border-bottom: 1.5px solid var(--violet); }
+h3 { font-size: 9.4pt; font-weight: 650; margin: 6px 0 2px; color: var(--violet); }
+p { margin: 3px 0; }
+ul, ol { margin: 2px 0 3px; padding-left: 14px; }
+li { margin: 0.5px 0; }
+strong { font-weight: 650; }
+a { color: var(--violet); text-decoration: none; }
+hr { display: none; }
+table { border-collapse: collapse; width: 100%; margin: 3px 0 5px; font-size: 7.2pt; line-height: 1.29; }
+tr { break-inside: avoid; }
+th { background: #14112A; color: #F5EFE6; text-align: left; font: 600 7.2pt "Inter Tight", sans-serif; padding: 2.4px 5px; }
+td { padding: 1.3px 5px; border-bottom: 1px solid var(--line); vertical-align: top; }
+tbody tr:nth-child(even) td { background: #FAF8FE; }
+td:first-child { font-weight: 600; }
+code { font: 7pt "JetBrains Mono", monospace; background: #F1EDFB; color: #4F34B8; padding: 0 2px; border-radius: 3px; }
+pre { background: #0E0B1C; color: #DCD6F3; padding: 5px 8px; border-radius: 7px; font: 6.7pt/1.4 "JetBrains Mono", monospace; white-space: pre-wrap; margin: 3px 0; break-inside: avoid; }
+pre code { background: none; color: inherit; padding: 0; font: inherit; }
+blockquote { margin: 4px 0; padding: 3px 9px; border-left: 3px solid var(--gold); background: #FBF6E9; color: #3A3320; border-radius: 0 6px 6px 0; }
+img { display: block; max-width: 100%; height: auto; margin: 3px auto; border-radius: 9px; }
+.figure { break-inside: avoid; margin: 4px 0 5px; text-align: center; }
+sub { display: block; font-size: 6.6pt; line-height: 1.3; color: var(--muted); margin-top: 2px; vertical-align: baseline; }
+.banner img { margin: 0 0 4px; }
+.badges, .toc { display: none; }
+.screen-only { display: none; }
