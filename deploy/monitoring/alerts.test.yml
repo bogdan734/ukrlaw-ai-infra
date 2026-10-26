@@ -1,0 +1,98 @@
+rule_files:
+  - alerts.yml
+
+evaluation_interval: 1m
+
+tests:
+  - interval: 1m
+    input_series:
+      - series: 'DCGM_FI_DEV_XID_ERRORS{gpu="0"}'
+        values: '79x5'
+    alert_rule_test:
+      - eval_time: 1m
+        alertname: GpuXidNeedsHuman
+        exp_alerts:
+          - exp_labels:
+              gpu: "0"
+              severity: page
+            exp_annotations:
+              summary: "GPU 0 XID 79"
+              description: "XID 79 on GPU 0 needs a GPU reset or node reboot; check dmesg."
+
+  # XID 13 is an application fault, so it should not page.
+  - interval: 1m
+    input_series:
+      - series: 'DCGM_FI_DEV_XID_ERRORS{gpu="1"}'
+        values: '13x5'
+    alert_rule_test:
+      - eval_time: 1m
+        alertname: GpuXidNeedsHuman
+        exp_alerts: []
+
+  - interval: 1m
+    input_series:
+      - series: 'DCGM_FI_DEV_ECC_DBE_VOL_TOTAL{gpu="3"}'
+        values: '0 0 1 1 1 1'
+    alert_rule_test:
+      - eval_time: 1m
+        alertname: GpuEccUncorrectable
+        exp_alerts: []
+      - eval_time: 5m
+        alertname: GpuEccUncorrectable
+        exp_alerts:
+          - exp_labels:
+              gpu: "3"
+              severity: page
+            exp_annotations:
+              summary: "GPU 3 uncorrectable ECC error"
+              description: "Double-bit ECC errors increased on GPU 3 in the last 10m; drain jobs and reset the GPU."
+
+  # GPU 7 goes stale at 2m; the explicit stale marker avoids the 5m lookback.
+  - interval: 1m
+    input_series:
+      - series: 'DCGM_FI_DEV_GPU_TEMP{gpu="0"}'
+        values: '40x10'
+      - series: 'DCGM_FI_DEV_GPU_TEMP{gpu="1"}'
+        values: '40x10'
+      - series: 'DCGM_FI_DEV_GPU_TEMP{gpu="2"}'
+        values: '40x10'
+      - series: 'DCGM_FI_DEV_GPU_TEMP{gpu="3"}'
+        values: '40x10'
+      - series: 'DCGM_FI_DEV_GPU_TEMP{gpu="4"}'
+        values: '40x10'
+      - series: 'DCGM_FI_DEV_GPU_TEMP{gpu="5"}'
+        values: '40x10'
+      - series: 'DCGM_FI_DEV_GPU_TEMP{gpu="6"}'
+        values: '40x10'
+      - series: 'DCGM_FI_DEV_GPU_TEMP{gpu="7"}'
+        values: '40 40 stale'
+    alert_rule_test:
+      - eval_time: 3m
+        alertname: GpuMissing
+        exp_alerts: []
+      - eval_time: 4m
+        alertname: GpuMissing
+        exp_alerts:
+          - exp_labels:
+              severity: page
+            exp_annotations:
+              summary: "7 of 8 GPUs visible to DCGM"
+              description: "A GPU fell off the bus or out of DCGM; check nvidia-smi and dmesg for XID 79."
+
+  - interval: 1m
+    input_series:
+      - series: 'DCGM_FI_DEV_GPU_TEMP{gpu="2"}'
+        values: '90x6'
+    alert_rule_test:
+      - eval_time: 4m
+        alertname: GpuHot
+        exp_alerts: []
+      - eval_time: 6m
+        alertname: GpuHot
+        exp_alerts:
+          - exp_labels:
+              gpu: "2"
+              severity: warn
+            exp_annotations:
+              summary: "GPU 2 at 90C"
+              description: "GPU 2 core above 85C for 5m; check fans and inlet air."

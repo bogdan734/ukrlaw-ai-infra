@@ -1,0 +1,22 @@
+# ECC and *_VIOLATION fields are commented out in the upstream default-counters.csv, so they are enabled here.
+# PROF_PCIE_*_BYTES are per-second rates, not cumulative totals, so they are typed gauge even though upstream says counter.
+# Format: DCGM field, Prometheus metric type, help message
+DCGM_FI_DEV_GPU_UTIL, gauge, GPU utilization (in %).
+DCGM_FI_DEV_FB_USED, gauge, Framebuffer memory used (in MiB).
+DCGM_FI_DEV_FB_FREE, gauge, Framebuffer memory free (in MiB).
+DCGM_FI_DEV_GPU_TEMP, gauge, GPU temperature (in C).
+DCGM_FI_DEV_MEMORY_TEMP, gauge, Memory temperature (in C).
+DCGM_FI_DEV_POWER_USAGE, gauge, Power draw (in W).
+DCGM_FI_DEV_XID_ERRORS, gauge, Value of the last XID error encountered.
+DCGM_FI_DEV_PCIE_REPLAY_COUNTER, counter, Total number of PCIe retries.
+DCGM_FI_DEV_ROW_REMAP_FAILURE, gauge, Whether remapping of rows has failed.
+DCGM_FI_DEV_UNCORRECTABLE_REMAPPED_ROWS, counter, Number of remapped rows for uncorrectable errors.
+DCGM_FI_DEV_ECC_SBE_VOL_TOTAL, counter, Total number of single-bit volatile ECC errors.
+DCGM_FI_DEV_ECC_DBE_VOL_TOTAL, counter, Total number of double-bit volatile ECC errors.
+DCGM_FI_DEV_POWER_VIOLATION, counter, Throttling duration due to power constraints (in us).
+DCGM_FI_DEV_THERMAL_VIOLATION, counter, Throttling duration due to thermal constraints (in us).
+DCGM_FI_DEV_BOARD_LIMIT_VIOLATION, counter, Throttling duration due to board limit constraints (in us).
+DCGM_FI_DEV_RELIABILITY_VIOLATION, counter, Throttling duration due to reliability constraints (in us).
+DCGM_FI_PROF_PIPE_TENSOR_ACTIVE, gauge, Ratio of cycles the tensor (HMMA) pipe is active.
+DCGM_FI_PROF_PCIE_TX_BYTES, gauge, PCIe transmit rate including header and payload (in B/s).
+DCGM_FI_PROF_PCIE_RX_BYTES, gauge, PCIe receive rate including header and payload (in B/s).

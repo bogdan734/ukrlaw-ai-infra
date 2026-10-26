@@ -1,0 +1,28 @@
+route:
+  receiver: telegram-warn
+  group_by: [alertname, gpu]
+  group_wait: 30s
+  group_interval: 5m
+  repeat_interval: 12h
+  routes:
+    - matchers: ['severity="page"']
+      receiver: telegram-page
+      repeat_interval: 1h
+    - matchers: ['severity="warn"']
+      receiver: telegram-warn
+      repeat_interval: 12h
+
+receivers:
+  - name: telegram-page
+    telegram_configs:
+      - bot_token_file: /run/secrets/telegram_token
+        # PLACEHOLDER: replace with your chat id (group ids are negative). Alertmanager refuses 0 as missing, so the value is a dummy.
+        chat_id: -1
+        parse_mode: HTML
+
+  - name: telegram-warn
+    telegram_configs:
+      - bot_token_file: /run/secrets/telegram_token
+        # PLACEHOLDER, as above; may be a different, quieter chat.
+        chat_id: -1
+        parse_mode: HTML
